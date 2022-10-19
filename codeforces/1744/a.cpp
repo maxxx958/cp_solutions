@@ -45,7 +45,24 @@ ll gcd (ll x, ll y);
 const int maxn = 2e5 + 13;
 
 void solve(){
-	
+	int n;
+	cin >> n;
+	vi a(n);
+	for(int i = 0; i < n; i++){
+		cin >> a[i];
+	}
+	string s;
+	cin >> s;
+	vector<char> last(51, '.');
+	for(int i = 0; i < n; i++){
+		if(last[a[i]] == '.'){
+			last[a[i]] = s[i];
+		}else if(last[a[i]] != s[i]){
+			cout << "NO" << endl;
+			return;
+		}
+	}
+	cout << "YES" << endl;
 }
 
 int main(){
