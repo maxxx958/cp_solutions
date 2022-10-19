@@ -6,12 +6,11 @@
         {
             "label": "Compile and run c++",
             "type": "shell",
-            "command": "g++ ${file} -o $a.o; ./a.o",
+            "command": "g++ ${file} -o a.o; ./a.o < a.in > a.out",
             "presentation": {
                 "echo": false,
-                "reveal": "always",
-                "focus": true,
-                "panel": "shared",
+                "reveal": "silent",
+                "focus": false,
                 "showReuseMessage": false,
                 "clear": true
             },
