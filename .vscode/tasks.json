@@ -6,7 +6,7 @@
         {
             "label": "Compile and run c++",
             "type": "shell",
-            "command": "g++ ${file} -o a.o; ./a.o < a.in > a.out",
+            "command": "rm a.o; g++ ${file} -o a.o; ./a.o < a.in > a.out",
             "presentation": {
                 "echo": false,
                 "reveal": "silent",
