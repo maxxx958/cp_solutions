@@ -13,8 +13,25 @@
                 "focus": false,
                 "showReuseMessage": false,
                 "clear": true
+            }
+        },
+        {
+            "label": "Open this problem in a browser",
+            "type": "shell",
+            "command": "nohup",
+            "args": [
+                "google-chrome",
+                "http://codeforces.com/contest/${fileDirnameBasename}/problem/${fileBasenameNoExtension}"
+            ],
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "showReuseMessage": false,
+                "clear": false
             },
-            "problemMatcher": []
+            "isBackground": true
+            
         }
     ]
 }
