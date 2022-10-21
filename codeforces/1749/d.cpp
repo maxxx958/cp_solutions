@@ -52,14 +52,13 @@ void solve(){
         if(prime[i])
             for(ll j = i * i; j <= n; j += i)
                 prime[j] = false;
-    //count unambigous
-    /*element at index i cant be divisible by anything less or equal to i
-    a[x] = product of primes greater than x
-    for each new prime, we subtract the remaining numbers by this new prime*/
+    //count unambigous then subtract them from all
+    /*element at index i has to be divisible by everything less or equal to i
+	a[i] == multiple of all primes up to i and some integer k >= 1*/
     ll unamb = 1, ans = 0, g = 1;
     for(int i = 1; i <= n; i++){
         if(prime[i]) g *= i;
-        g = min(g, m + 1);
+        g = min(g, m + 1); //carefully because it might overflow
         unamb *= (m / g) % mod;
         unamb %= mod;
         ans += (power(m, i) - unamb + mod) % mod;
