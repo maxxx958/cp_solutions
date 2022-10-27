@@ -43,30 +43,26 @@ ll gcd (ll x, ll y);
 //==============================================================================
 
 
-
 void solve(){
 	int n;
 	cin >> n;
-	vii moves[n + 1];
-	moves[1] = {{1, 3}};
-	for(int m = 2; m <= n; m++){
-		int pos_pattern = 0;
-		vi pattern = {1, 2, 3};
-		if(m % 2){
-			swap(pattern[1], pattern[2]);
-		}
-		for(int i = 0; i < moves[m - 1].size(); i++){
-			moves[m].pb({pattern[pos_pattern % 3], pattern[(pos_pattern + 1) % 3]});
-			moves[m].pb(moves[m - 1][i]);
-			pos_pattern++;
-		}
-		moves[m].pb({pattern[pos_pattern % 3], pattern[(pos_pattern + 1) % 3]});
+	vl p(n);
+	for(int i = 0; i < n; i++){
+		cin >> p[i];
 	}
-	cout << (int)moves[n].size() << endl;
-	for(pii m : moves[n]){
-		cout << m.st << ' ' << m.nd << endl;
+	ll ans = INF;
+	for(int i = 0; i < (1 << n); i++){
+		ll sum = 0;
+		for(int j = 0; j < n; j++){
+			if(i & (1 << j)){
+				sum += p[j];
+			}else{
+				sum -= p[j];
+			}
+		}
+		ans = min(ans, abs(sum));
 	}
-
+	cout << ans << endl;
 }
 
 int main(){

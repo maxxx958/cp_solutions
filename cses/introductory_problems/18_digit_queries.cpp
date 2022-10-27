@@ -42,37 +42,36 @@ ll gcd (ll x, ll y);
 
 //==============================================================================
 
-
+int k_th_digit(ll number, int k, int len){
+	k = len - k;
+	while(k--)
+		number /= 10ll;
+	return number % 10ll;
+}
 
 void solve(){
-	int n;
-	cin >> n;
-	vii moves[n + 1];
-	moves[1] = {{1, 3}};
-	for(int m = 2; m <= n; m++){
-		int pos_pattern = 0;
-		vi pattern = {1, 2, 3};
-		if(m % 2){
-			swap(pattern[1], pattern[2]);
-		}
-		for(int i = 0; i < moves[m - 1].size(); i++){
-			moves[m].pb({pattern[pos_pattern % 3], pattern[(pos_pattern + 1) % 3]});
-			moves[m].pb(moves[m - 1][i]);
-			pos_pattern++;
-		}
-		moves[m].pb({pattern[pos_pattern % 3], pattern[(pos_pattern + 1) % 3]});
+	ll k;
+	cin >> k;
+	ll x = 10;
+	ll d = 1, first = x / 10ll, last = x - 1, last_index = 9, first_index = 1;
+	while(last_index < k){
+		d++;
+		x *= 10ll;
+		first = x / 10ll;
+		last = x - 1ll;
+		first_index = last_index + 1ll;
+		last_index += (last - first + 1ll) * d;
+		//cout << first_index << ' ' << last_index << endl;
 	}
-	cout << (int)moves[n].size() << endl;
-	for(pii m : moves[n]){
-		cout << m.st << ' ' << m.nd << endl;
-	}
-
+	k -= first_index;
+	ll number = first + k / d;
+	cout << k_th_digit(number, k % d + 1, d) << endl;
 }
 
 int main(){
 	fastio;
 	int T = 1;
-	//cin >> T;
+	cin >> T;
 	for(int i = 1; i <= T; i++){
 		solve();
 	}

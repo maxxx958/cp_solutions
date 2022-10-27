@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
-
+ 
 using namespace std;
-
+ 
 #define st first
 #define nd second
 #define pb push_back
@@ -26,49 +26,63 @@ typedef vector<pll>				vll;
 typedef map<int, int>			mii;
 typedef set<pii>				sii;
 typedef set<int>				si;
-
+ 
 const ll mod = 1e9 + 7;                /// 1 000 000 007
 const ll mod2 = 119 << 23 | 1;           /// 998244353
 const ll mod3 = 467093870598391;        /// big prime
 int inf = 1e9 + 7;
 ll INF = 1e16 + 9;
-
-
-
+ 
+ 
+ 
 ll power (ll x, ll y);
 ll inv (ll x);
 bool isPrime (ll x);
 ll gcd (ll x, ll y);
-
+ 
 //==============================================================================
+ 
+string s;
+int ans = 0;
+bool vis[7][7];
 
+int moves[4][2] = {{1, 0}, {0, -1}, {0, 1}, {-1, 0}};
 
-
-void solve(){
-	int n;
-	cin >> n;
-	vii moves[n + 1];
-	moves[1] = {{1, 3}};
-	for(int m = 2; m <= n; m++){
-		int pos_pattern = 0;
-		vi pattern = {1, 2, 3};
-		if(m % 2){
-			swap(pattern[1], pattern[2]);
-		}
-		for(int i = 0; i < moves[m - 1].size(); i++){
-			moves[m].pb({pattern[pos_pattern % 3], pattern[(pos_pattern + 1) % 3]});
-			moves[m].pb(moves[m - 1][i]);
-			pos_pattern++;
-		}
-		moves[m].pb({pattern[pos_pattern % 3], pattern[(pos_pattern + 1) % 3]});
-	}
-	cout << (int)moves[n].size() << endl;
-	for(pii m : moves[n]){
-		cout << m.st << ' ' << m.nd << endl;
-	}
-
+bool v(int x, int y){
+	return x < 0 or x > 6 or y < 0 or y > 6 or vis[x][y];
 }
-
+ 
+void dfs(int x, int y, int i){
+	if(x == 0 and y == 6){
+		if(i == 48)
+			ans++;
+		return;
+	}
+	if(x - y > 42 - i or (not vis[6][0] and y - x > 30 - i))
+		return;
+	vis[x][y] = true;
+	if((s[i] == 'D' or s[i] == '?') and !v(x, y + 1) and !(v(x, y + 2) and !v(x + 1, y + 1) and !v(x - 1, y + 1))){
+		dfs(x, y + 1, i + 1);
+	}
+	if((s[i] == 'U' or s[i] == '?') and !v(x, y - 1) and !(v(x, y - 2) and !v(x + 1, y - 1) and !v(x - 1, y - 1))){
+		dfs(x, y - 1, i + 1);
+	}
+	if((s[i] == 'R' or s[i] == '?') and !v(x + 1, y) and !(v(x + 2, y) and !v(x + 1, y - 1) and !v(x + 1, y + 1))){
+		dfs(x + 1, y, i + 1);
+	}
+	if((s[i] == 'L' or s[i] == '?') and !v(x - 1, y) and !(v(x - 2, y) and !v(x - 1, y - 1) and !v(x - 1, y + 1))){
+		dfs(x - 1, y, i + 1);
+	}
+	vis[x][y] = false;
+}
+ 
+ 
+void solve(){
+	cin >> s;
+	dfs(0, 0, 0);
+	cout << ans;
+}
+ 
 int main(){
 	fastio;
 	int T = 1;
@@ -78,7 +92,7 @@ int main(){
 	}
 	return 0;
 }
-
+ 
 ll power (ll x, ll y) {
 	if(y < 0)
 		return 0;
@@ -94,7 +108,7 @@ ll power (ll x, ll y) {
 	}
 	return res;
 }
-
+ 
 bool isPrime (ll x) {
 	if (x == 1)
 		return false;
@@ -104,13 +118,13 @@ bool isPrime (ll x) {
 	}
 	return true;
 }
-
+ 
 ll gcd (ll x, ll y) {
 	if (!y)
 		return x;
 	return gcd (y, x % y);
 }
-
+ 
 /*
 	__builtin_popcount
 	__builtin_ctz

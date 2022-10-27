@@ -43,30 +43,26 @@ ll gcd (ll x, ll y);
 //==============================================================================
 
 
-
 void solve(){
-	int n;
-	cin >> n;
-	vii moves[n + 1];
-	moves[1] = {{1, 3}};
-	for(int m = 2; m <= n; m++){
-		int pos_pattern = 0;
-		vi pattern = {1, 2, 3};
-		if(m % 2){
-			swap(pattern[1], pattern[2]);
-		}
-		for(int i = 0; i < moves[m - 1].size(); i++){
-			moves[m].pb({pattern[pos_pattern % 3], pattern[(pos_pattern + 1) % 3]});
-			moves[m].pb(moves[m - 1][i]);
-			pos_pattern++;
-		}
-		moves[m].pb({pattern[pos_pattern % 3], pattern[(pos_pattern + 1) % 3]});
+	string board[8];
+	for(int i = 0; i < 8; i++){
+		cin >> board[i];
 	}
-	cout << (int)moves[n].size() << endl;
-	for(pii m : moves[n]){
-		cout << m.st << ' ' << m.nd << endl;
-	}
-
+	vi a = {0, 1, 2, 3, 4, 5, 6, 7};
+	int ans = 0;
+	do{
+		bool okay = true;
+		for(int i = 0; i < 8; i++){
+			if(board[a[i]][i] == '*') okay = false;
+			for(int j = i + 1; j < 8; j++){
+				if(i + a[i] == j + a[j] or i - a[i] == j - a[j]){
+					okay = false;
+				}
+			}
+		}
+		ans += okay;
+	}while(next_permutation(all(a)));
+	cout << ans << endl;
 }
 
 int main(){

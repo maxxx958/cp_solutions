@@ -42,31 +42,39 @@ ll gcd (ll x, ll y);
 
 //==============================================================================
 
+vector<vector<char>> ans;
 
+void create(vector<char> &akt, vi &cnt, int pos){
+	if(pos == akt.size()){
+		ans.pb(akt);
+		return;
+	}
+	for(int i = 0; i < 26; i++){
+		if(cnt[i] > 0){
+			cnt[i]--;
+			akt[pos] = 'a' + i;
+			create(akt, cnt, pos + 1);
+			cnt[i]++;
+		}
+	}
+}
 
 void solve(){
-	int n;
-	cin >> n;
-	vii moves[n + 1];
-	moves[1] = {{1, 3}};
-	for(int m = 2; m <= n; m++){
-		int pos_pattern = 0;
-		vi pattern = {1, 2, 3};
-		if(m % 2){
-			swap(pattern[1], pattern[2]);
-		}
-		for(int i = 0; i < moves[m - 1].size(); i++){
-			moves[m].pb({pattern[pos_pattern % 3], pattern[(pos_pattern + 1) % 3]});
-			moves[m].pb(moves[m - 1][i]);
-			pos_pattern++;
-		}
-		moves[m].pb({pattern[pos_pattern % 3], pattern[(pos_pattern + 1) % 3]});
+	string s;
+	cin >> s;
+	vi cnt(26, 0);
+	for(char c : s){
+		cnt[c - 'a']++;
 	}
-	cout << (int)moves[n].size() << endl;
-	for(pii m : moves[n]){
-		cout << m.st << ' ' << m.nd << endl;
+	vector<char> akt(s.size());
+	create(akt, cnt, 0);
+	cout << ans.size() << endl;
+	for(int i = 0; i < ans.size(); i++){
+		for(int j = 0; j < s.size(); j++){
+			cout << ans[i][j];
+		}
+		cout << endl;
 	}
-
 }
 
 int main(){
